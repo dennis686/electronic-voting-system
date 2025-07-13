@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Vote{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">🗳 Cast Your Vote</h2>
+
+    <!-- Feedback messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if national_positions or county_positions %}
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- National Positions Section -->
+        {% if national_positions %}
+            <h4 class="mt-4 mb-3">🌍 National Positions</h4>
+            {% for position in national_positions %}
+                <div class="card my-3">
+                    <div class="card-header bg-primary text-white">
+                        <strong>{{ position.name }}</strong>
+                    </div>
+                    <div class="card-body">
+                        {% for candidate in position.candidates %}
+                            <div class="form-check mb-2">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="position_{{ position.id }}"
+                                       value="{{ candidate.id }}"
+                                       id="candidate_{{ candidate.id }}"
+                                       required>
+                                <label class="form-check-label" for="candidate_{{ candidate.id }}">
+                                    {{ candidate.name }}
+                                </label>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted">No candidates available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- County Positions Section -->
+        {% if county_positions %}
+            <h4 class="mt-5 mb-3">🏛️ County Positions for <span class="text-info">{{ voter.county.name }}</span></h4>
+            {% for position in county_positions %}
+                <div class="card my-3">
+                    <div class="card-header bg-success text-white">
+                        <strong>{{ position.name }}</strong>
+                    </div>
+                    <div class="card-body">
+                        {% for candidate in position.candidates %}
+                            <div class="form-check mb-2">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       name="position_{{ position.id }}"
+                                       value="{{ candidate.id }}"
+                                       id="candidate_{{ candidate.id }}"
+                                       required>
+                                <label class="form-check-label" for="candidate_{{ candidate.id }}">
+                                    {{ candidate.name }}
+                                </label>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted">No candidates available for this position.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Submit Button -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success btn-lg">🗳 Submit Vote</button>
+        </div>
+    </form>
+    {% else %}
+        <div class="alert alert-warning mt-4">
+            <p>No positions available for you to vote for. Please contact the admin.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

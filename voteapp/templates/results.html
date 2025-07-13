@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">📊 Election Results</h2>
+
+    {% if results %}
+        {% for result in results %}
+            <div class="card my-4 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <strong>{{ result.position }}</strong>
+                </div>
+                <div class="card-body">
+                    {% for candidate in result.candidates %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ candidate.name }}</strong>
+                                <span>{{ candidate.votes }} votes ({{ candidate.percent }}%)</span>
+                            </div>
+                            <div class="progress rounded" style="height: 24px;">
+                                <div class="progress-bar bg-success"
+                                     role="progressbar"
+                                     style="width: {{ candidate.percent }}%;"
+                                     aria-valuenow="{{ candidate.percent }}"
+                                     aria-valuemin="0"
+                                     aria-valuemax="100">
+                                    {{ candidate.percent }}%
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted">No candidates found for this position.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning text-center">
+            No results available at this time.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

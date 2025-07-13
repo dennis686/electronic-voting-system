@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - E-Voting System{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h1>Welcome to the Official E-Voting Platform</h1>
+    <p>Your voice matters. Participate in free and fair electronic voting with transparency and security.</p>
+
+    <div class="cta-buttons">
+        <a href="{% url 'register' %}" class="button">Register as a Voter</a>
+        <a href="{% url 'vote' %}" class="button">Start Voting</a>
+        <a href="{% url 'results' %}" class="button">View Results</a>
+    </div>
+
+    <section class="features">
+        <h2>Why Use Our E-Voting System?</h2>
+        <ul>
+            <li>✔ Secure and Transparent Voting Process</li>
+            <li>✔ Real-time Results Updates</li>
+            <li>✔ User-Friendly Interface</li>
+            <li>✔ Verified Voter Registration</li>
+            <li>✔ Accessible Anytime, Anywhere</li>
+        </ul>
+    </section>
+
+    <section class="info">
+        <h2>How It Works</h2>
+        <p>1️⃣ Register as a voter using your official university/student ID.<br>
+        2️⃣ Log in to the system to cast your vote.<br>
+        3️⃣ View live results once voting closes.<br></p>
+    </section>
+</div>
+
+<footer>
+    <p>© 2025 E-Voting System • All rights reserved.</p>
+    <p>Contact: support@evote-kenya.or.ke | Built with Django</p>
+</footer>
+{% endblock %}

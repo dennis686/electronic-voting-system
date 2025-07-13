@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Voter Registration</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'register' %}">
+        {% csrf_token %}
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input type="email" name="email" id="email" class="form-control" required>
+        </div>
+
+        <!-- Full Name -->
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" name="full_name" id="full_name" class="form-control" required>
+        </div>
+
+        <!-- National ID -->
+        <div class="mb-3">
+            <label for="id_number" class="form-label">National ID</label>
+            <input type="text" name="id_number" id="id_number" class="form-control" required>
+        </div>
+
+        <!-- County -->
+        <div class="mb-3">
+            <label for="county" class="form-label">County</label>
+            <select name="county" id="county" class="form-select" required>
+                <option value="">-- Select County --</option>
+                {% for county in counties %}
+                    <option value="{{ county.id }}">{{ county.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Constituency -->
+        <div class="mb-3">
+            <label for="constituency" class="form-label">Constituency</label>
+            <select name="constituency" id="constituency" class="form-select" required>
+                <option value="">-- Select Constituency --</option>
+                {% for constituency in constituencies %}
+                    <option value="{{ constituency.id }}" data-county="{{ constituency.county.id }}">{{ constituency.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Ward -->
+        <div class="mb-3">
+            <label for="ward" class="form-label">Ward</label>
+            <select name="ward" id="ward" class="form-select" required>
+                <option value="">-- Select Ward --</option>
+                {% for ward in wards %}
+                    <option value="{{ ward.id }}" data-constituency="{{ ward.constituency.id }}">{{ ward.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+</div>
+
+<!-- JavaScript to dynamically filter dropdowns -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countySelect = document.getElementById("county");
+        const constituencySelect = document.getElementById("constituency");
+        const wardSelect = document.getElementById("ward");
+
+        function filterConstituencies() {
+            const selectedCounty = countySelect.value;
+            [...constituencySelect.options].forEach(option => {
+                if (!option.value) return; // skip the placeholder
+                const match = option.dataset.county === selectedCounty;
+                option.hidden = !match;
+            });
+            constituencySelect.value = "";
+            filterWards(); // reset wards too
+        }
+
+        function filterWards() {
+            const selectedConstituency = constituencySelect.value;
+            [...wardSelect.options].forEach(option => {
+                if (!option.value) return;
+                const match = option.dataset.constituency === selectedConstituency;
+                option.hidden = !match;
+            });
+            wardSelect.value = "";
+        }
+
+        // Event listeners
+        countySelect.addEventListener("change", filterConstituencies);
+        constituencySelect.addEventListener("change", filterWards);
+
+        // Initial filter on load
+        filterConstituencies();
+        filterWards();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+body {
+    background: url('/static/voting/images/sirius.webp') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+    color: rgb(141, 19, 19);
+}
+
+.container, .card, .form-control, .btn {
+    background-color: rgba(233, 39, 39, 0.6);
+    color: rgb(102, 112, 7);
+    border: none;
+}
+
+h1, h2, h3 {
+    text-shadow: 1px 1px 3px #d42828;
+}
