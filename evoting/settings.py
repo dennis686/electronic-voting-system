@@ -11,8 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # === SECURITY SETTINGS ===
 SECRET_KEY = 'django-insecure-pysxa-&w&$*zzp315iguz@*39=c7p4v36s$(m&uly*rl5*%ibd'  # Change in production!
-DEBUG = False
-ALLOWED_HOSTS = ['Dennischeruu004.pythonanywhere.com']
+DEBUG = True
+ALLOWED_HOSTS = []
 
   # Add your domain/IP when deploying
 
