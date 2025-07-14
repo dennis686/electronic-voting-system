@@ -1,1 +1,22 @@
- 
+ # Django-related
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+*.env
+
+# Backup or archive files
+*.zip
+*.7z
+*.rar
+
+# Editor and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Static/media in development
+staticfiles/
+media/
+
